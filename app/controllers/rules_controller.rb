@@ -2,12 +2,12 @@ class RulesController < ApplicationController
   before_action :set_rule, only: [:show, :edit, :update, :destroy]
   before_filter :require_authentication, only: [:new, :create]
   before_filter :require_authorization, only: [:edit, :destroy]
-
+  before_filter :require_params, only: [:edit, :create]
 
   # GET /rules
   # GET /rules.json
   def index
-    @rules = Rule.all
+    @rules = Rule.page(params[:page])
   end
 
   # GET /rules/1
@@ -27,7 +27,7 @@ class RulesController < ApplicationController
   # POST /rules
   # POST /rules.json
   def create
-    @rule = current_user.rules.new(Rule.parse_code(rule_params[:code]))
+    @rule = current_user.rules.new(Rule.create_params(rule_params))
     
     respond_to do |format|
       if @rule.save
@@ -79,6 +79,13 @@ class RulesController < ApplicationController
     if !current_user.author_of?(params[:id])
       flash[:notice] = "You do not have permission for that action."
       redirect_to :root 
+    end
+  end
+  
+  def require_params
+    if rule_params[:code].blank? or Rule.create_params(rule_params)[:name].blank?
+      flash[:notice] = "Code cannot be blank and must contain a name property or else a name property must be explicitly provided."
+      redirect_to :root
     end
   end
 end

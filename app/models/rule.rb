@@ -3,8 +3,10 @@ require 'coderay'
 class Rule < ActiveRecord::Base
   belongs_to :user
 
+  # Takes a cozify rule written in python
+  # and parses out important information from it
   def self.parse_code code
-    parsed = {
+    {
       rule_type: parse_rule_type(code),
       name: parse_name(code),
       description: parse_description(code),
@@ -14,6 +16,22 @@ class Rule < ActiveRecord::Base
     }
   end
   
+  # Takes a hash of parameters and merges them
+  # with the hash obtained by parsing the code
+  # found within.
+  # Parameters passed in as an argument override
+  # the values found by parsing the code
+  def self.create_params parameters
+    parse_code(parameters[:code]).each do |key, value|
+      if parameters[key].blank?
+        parameters[key] = value 
+      end
+    end
+    parameters
+  end
+  
+  # Returns an html formatted string with
+  # self-contained styling for python code
   def code_html
     CodeRay.scan(self.code, :python).div().html_safe
   end
@@ -27,26 +45,31 @@ class Rule < ActiveRecord::Base
   end
   
   def capabilities_arr
-     self.capabilities.gsub(/\[|\]|\s|\"/,'').split(/,/)
+     self.capabilities ? self.capabilities.gsub(/\[|\]|\s|\"/,'').split(/,/) : nil
   end
   
   def self.parse_rule_type code
-      /type\s*=\s*(['"]+.*['"]+)/.match(code)[1]
+      matched = /type\s*=\s*(['"]+.*['"]+)/.match(code)
+      matched ? matched[1] : nil
   end
   
   def self.parse_name code
-      /name\s*=\s*(['"]+.*['"]+)/.match(code)[1]
+      matched = /name\s*=\s*(['"]+.*['"]+)/.match(code)
+      matched ? matched[1] : nil
   end
     
   def self.parse_description code
-      /description\s*=\s*(['"]+.*['"]+)/.match(code)[1]
+      matched = /description\s*=\s*(['"]+.*['"]+)/.match(code)
+      matched ? matched[1] : nil
   end
     
   def self.parse_summary code
-       /summary\s*=\s*(['"]+.*['"]+)/.match(code)[1]
+       matched = /summary\s*=\s*(['"]+.*['"]+)/.match(code)
+       matched ? matched[1] : nil
   end
     
   def self.parse_capabilities code
-      code.scan(/capabilities\s*=\s*\[(.*)\]/).try(:flatten)
+      matched = code.scan(/capabilities\s*=\s*\[(.*)\]/).try(:flatten)
+      matched ? matched : []
   end
 end
