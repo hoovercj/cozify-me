@@ -3,6 +3,33 @@ require 'coderay'
 class Rule < ActiveRecord::Base
   belongs_to :user
 
+  def self.all_capabilities
+    ["ON_OFF",
+     "TEMPERATURE",
+     "MOTION",
+     "HUMIDITY",
+     "CONTACT",
+     "TWILIGHT",
+     "COLOR_HS",
+     "COLOR_TEMP",
+     "BRIGHTNESS",
+     "TRANSITION",
+     "COLOR_LOOP",
+     "VOLUME",
+     "MUTE",
+     "BASS",
+     "TREBLE",
+     "LOUDNESS",
+     "PAUSE",
+     "SEEK",
+     "NEXT",
+     "PREVIOUS",
+     "ALERT",
+     "PUSH_NOTIFICATION",
+     "REMOTE_CONTROL",
+     "GENERATE_ALERT"]
+  end
+
   # Takes a cozify rule written in python
   # and parses out important information from it
   def self.parse_code code

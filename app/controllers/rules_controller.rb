@@ -7,7 +7,15 @@ class RulesController < ApplicationController
   # GET /rules
   # GET /rules.json
   def index
-    @rules = Rule.page(params[:page])
+    @rules = Rule.where("code LIKE ?", "%#{params[:q]}%")
+
+    capabilities = params[:capabilities] || []
+    capabilities.each do |capability|
+      @rules = @rules.where("capabilities LIKE ?", "%#{capability}%")
+    end
+
+    
+    @rules = @rules.page(params[:page])
   end
 
   # GET /rules/1
