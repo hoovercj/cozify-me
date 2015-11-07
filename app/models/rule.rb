@@ -1,6 +1,8 @@
 require 'coderay'
 
 class Rule < ActiveRecord::Base
+  belongs_to :user
+
   def self.parse_code code
     parsed = {
       rule_type: parse_rule_type(code),
@@ -13,7 +15,15 @@ class Rule < ActiveRecord::Base
   end
   
   def code_html
-      CodeRay.scan(self.code, :python).div().html_safe
+    CodeRay.scan(self.code, :python).div().html_safe
+  end
+  
+  def username
+    if self.user
+      self.user.name
+    else
+      "anonymous"
+    end
   end
   
   def capabilities_arr

@@ -1,5 +1,8 @@
 class RulesController < ApplicationController
   before_action :set_rule, only: [:show, :edit, :update, :destroy]
+  before_filter :require_authentication, only: [:new, :create]
+  before_filter :require_authorization, only: [:edit, :destroy]
+
 
   # GET /rules
   # GET /rules.json
@@ -24,8 +27,8 @@ class RulesController < ApplicationController
   # POST /rules
   # POST /rules.json
   def create
-    @rule = Rule.new(Rule.parse_code(rule_params[:code]))
-
+    @rule = current_user.rules.new(Rule.parse_code(rule_params[:code]))
+    
     respond_to do |format|
       if @rule.save
         format.html { redirect_to @rule, notice: 'Rule was successfully created.' }
@@ -62,13 +65,20 @@ class RulesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_rule
-      @rule = Rule.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_rule
+    @rule = Rule.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def rule_params
-      params.require(:rule).permit(:rule_type, :name, :description, :summary, :capabilities, :code)
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def rule_params
+    params.require(:rule).permit(:rule_type, :name, :description, :summary, :capabilities, :code)
+  end
+
+  def require_authorization
+    if !current_user.author_of?(params[:id])
+      flash[:notice] = "You do not have permission for that action."
+      redirect_to :root 
     end
+  end
 end
