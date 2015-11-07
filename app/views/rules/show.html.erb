@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+<p id="notice"><%= notice %></p>
+
+<h1 class="header">Cozify Rules</h1>
+<div class="list-group">
+  <div class="list-group-item">
+    <h4 class="header"><%= @rule.name %></h4>
+    <p><b>Type:</b> <%= @rule.rule_type %></p>
+    <p><b>Description:</b> <%= @rule.description %></p>
+    <p><b>Summary:</b> <%= @rule.summary %></p>
+    <p><b>Capabilities:</b> 
+    <% @rule.capabilities_arr.each do |capability| %>
+      <span class="label label-default"><%= capability %></span>
+    <% end %>
+    </p>
+    <p><b>Code:</b></p>
+    <div class="panel">
+      <%= @rule.code_html %>
+    </div>  
+    <span><%= link_to 'Edit', edit_rule_path(@rule) %></span>
+    <span><%= link_to 'Destroy', @rule, method: :delete, data: { confirm: 'Are you sure?' } %></span>
+  </div>
+</div>
+
+<br>
