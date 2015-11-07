@@ -8,9 +8,9 @@
     <p><b>Type:</b> <%= @rule.rule_type %></p>
     <p><b>Description:</b> <%= @rule.description %></p>
     <p><b>Summary:</b> <%= @rule.summary %></p>
-    <p><b>Capabilities:</b> 
+    <p><b>Capabilities:</b>
     <% @rule.capabilities_arr.each do |capability| %>
-      <span class="label label-default"><%= capability %></span>
+      <span class="label label-primary"><%= capability %></span>
     <% end %>
     </p>
     <p><b>Code:</b></p>
