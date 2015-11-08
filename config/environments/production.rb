@@ -78,7 +78,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
   
   config.secret_key_base = ENV["SECRET_KEY_BASE"]
-  config.github_key: <%= ENV["GITHUB_KEY"] %>
-  config.github_secret: <%= ENV["GITHUB_SECRET"] %>
+  config.github_key = ENV["GITHUB_KEY"]
+  config.github_secret = ENV["GITHUB_SECRET"]
   
 end
