@@ -8,12 +8,7 @@ class RulesController < ApplicationController
   # GET /rules.json
   def index
 
-    @selected_capabilities = params[:capabilities] || session[:capabilities]
-    if @selected_capabilities
-      session[:capabilities] = @selected_capabilities
-    else
-      @selected_capabilities = []
-    end
+    @selected_capabilities = params[:capabilities] || []
 
     @rules = Rule.where("code LIKE ?", "%#{params[:q]}%")
 
