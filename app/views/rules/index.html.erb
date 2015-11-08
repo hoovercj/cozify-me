@@ -7,7 +7,7 @@
   <div class="form-group">
     <select id="capabilities-selector" name="capabilities[]" multiple="multiple">
     <% Rule.all_capabilities.each do |capability| %>
-      <option value="<%= capability %>"><%= capability %></option>
+      <option value="<%= capability %>", <% if @selected_capabilities.include?(capability) %> selected="true" <% end%>><%= capability %></option>
     <% end %>
     </select>
   </div>

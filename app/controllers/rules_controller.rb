@@ -7,10 +7,17 @@ class RulesController < ApplicationController
   # GET /rules
   # GET /rules.json
   def index
+
+    @selected_capabilities = params[:capabilities] || session[:capabilities]
+    if @selected_capabilities
+      session[:capabilities] = @selected_capabilities
+    else
+      @selected_capabilities = []
+    end
+
     @rules = Rule.where("code LIKE ?", "%#{params[:q]}%")
 
-    capabilities = params[:capabilities] || []
-    capabilities.each do |capability|
+    @selected_capabilities.each do |capability|
       @rules = @rules.where("capabilities LIKE ?", "%#{capability}%")
     end
 
@@ -91,7 +98,7 @@ class RulesController < ApplicationController
   
   def require_params
     if rule_params[:code].blank? or Rule.create_params(rule_params)[:name].blank?
-      flash[:notice] = "Code cannot be blank and must contain a name property or else a name property must be explicitly provided."
+      flash[:notice] = "Code cannot be blank and must contain a name property, otherwise a name property must be explicitly provided."
       redirect_to :root
     end
   end
