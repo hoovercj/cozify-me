@@ -16,10 +16,3 @@
 //= require turbolinks
 //= require bootstrap-multiselect
 //= require_tree .
-
-$(document).ready(function() {
-    $('#capabilities-selector').multiselect({
-        includeSelectAllOption: false,
-        enableFiltering: true
-    });
-});

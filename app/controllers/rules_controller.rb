@@ -2,7 +2,7 @@ class RulesController < ApplicationController
   before_action :set_rule, only: [:show, :edit, :update, :destroy]
   before_filter :require_authentication, only: [:new, :create]
   before_filter :require_authorization, only: [:edit, :destroy]
-  before_filter :require_params, only: [:edit, :create]
+  before_filter :require_params, only: [:create]
 
   # GET /rules
   # GET /rules.json
@@ -14,7 +14,6 @@ class RulesController < ApplicationController
       @rules = @rules.where("capabilities LIKE ?", "%#{capability}%")
     end
 
-    
     @rules = @rules.page(params[:page])
   end
 

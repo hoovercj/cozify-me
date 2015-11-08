@@ -12,7 +12,7 @@
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">Cozify.me</a>
+      <a class="navbar-brand" href="<%= rules_path %>">Cozify.me</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -30,4 +30,15 @@
   <%= yield %>
 </div>
 </body>
+
+<script>
+$(document).ready(function() {
+  $('#capabilities-selector').multiselect({
+      includeSelectAllOption: false,
+      enableFiltering: true
+  });
+});
+  
+</script>
+
 </html>
