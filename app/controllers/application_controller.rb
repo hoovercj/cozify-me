@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   
   def require_authentication
     unless User.find_by(id: session[:user_id])
-      redirect_to root_url, notice: "You don't have permission for that"
+      redirect_to "/auth/github"
     end
   end
   

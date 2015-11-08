@@ -25,10 +25,16 @@
     </ul>
   </div><!-- /.container-fluid -->
 </nav>  
-  
+<div class="container">  
 <div class="col-md-10 col-md-offset-1">
   <%= yield %>
 </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="text-muted text-center">Made with love by <%= link_to "Cody Hoover", "http://www.codyhoover.com" %> for Junction 2015. Checkout the <%= link_to "Cozify docs", "https://github.com/cozify/HubAPI/wiki/" %></p>
+  </div>
+</footer>
 </body>
 
 <script>

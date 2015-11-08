@@ -1,6 +1,7 @@
 <p id="notice"><%= notice %></p>
 
-<h1 class="header">Cozify Rules</h1>
+<h1 class="header">Welcome to Cozify.me!</h1>
+<h3>Search through Cozify scripts submitted by users or submit your own!</h3>
 
 <form class="form-inline" method="GET" action="<%= rules_path %>">
   <div class="form-group">
@@ -21,8 +22,10 @@
     <span><%= link_to 'See details', rule %></span>
   </div>
 <% end %>
+  <div>
+    <%= paginate @rules %>
+  </div>
+  <div>
+    <%= link_to 'New Rule', new_rule_path, class: 'btn btn-primary' %>
+  </div>
 </div>
-<%= paginate @rules %>
-<br>
-
-<%= link_to 'New Rule', new_rule_path, class: 'btn btn-primary' %>
